@@ -55,7 +55,6 @@
                                             <td>{{recibo.monto_recibo}}</td>
                                             <td>{{recibo.moneda_recibo}}</td>
                                             <td>{{recibo.fecha_recibo | date: 'dd/MM/yyyy'}}</td>
-                                            <!--  | date: 'dd/MM/yyyy' -->
                                             <td>{{recibo.comentario_recibo}}</td>
                                             <td>
                                                 <button class="btn btn-primary m-1"
@@ -107,8 +106,6 @@
                                             <option *ngFor="let moneda of lista_tipo_monedas" [value]="moneda.clave" placeholder="Selecciona el tipo de moneda">
                                                 {{moneda.clave+' - '+moneda.nombre}}</option>
                                         </select>
-                                        <!-- <input [disabled]="modo_vista" type="text" class="form-control"
-                                            [(ngModel)]="obj_recibo.moneda_recibo"> -->
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Fecha:</label>
