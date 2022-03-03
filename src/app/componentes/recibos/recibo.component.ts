@@ -47,7 +47,6 @@ export class reciboComponent {
 
     }
     ngOnInit() {
-        debugger
         let usuario_actual =  JSON.parse(localStorage.getItem('current_user') || '{}'); 
         if(usuario_actual.nombre_usuario == undefined){
             localStorage.clear();
@@ -99,7 +98,6 @@ export class reciboComponent {
     }
 
     formato_moneda(data: string) {
-        debugger
         let partes1 = data.split('.');
         let val = '';
         if (partes1[0].split('')[0] == '0') {
@@ -156,17 +154,9 @@ export class reciboComponent {
     }
     guardar_recibo() {
         if (this.datos_correctos_recibo()) {
-            if (true) {
                 this.formatear_datos_recibo(); 
                 this.insertar_recibo();
                 this.limpiar();
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Algo salió mal',
-                    text: 'Vuelve a intentarlo.'
-                })
-            }
         }
     }
     editar_recibo() {
@@ -187,7 +177,7 @@ export class reciboComponent {
     validar_eliminar_recibo(id_recibo: number) {
         Swal.fire({
             title: 'Eliminar recibo',
-            text: "¿Estas seguro que deseas eliminar el recibo? esto podría ser irreversible",
+            text: "¿Estas seguro que deseas eliminar el recibo? Esto podría ser irreversible",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
