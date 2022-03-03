@@ -1,0 +1,89 @@
+<div class="container-fluid "style="height: 100vh; overflow: auto;">
+  <div class="row  h-100 d-flex align-items-center justify-content-center">
+    <div class="col-lg-4">
+
+    </div>
+    <div class="col-lg-4">
+      <div class="card">
+        <h5 class="card-header  text-center">Iniciar sesión</h5>
+        <div class="card-body">
+          <div class="d-flex row text-center">
+            <div class="col">
+              <img src="../assets/recibo.png" width="50" height="50" class="d-inline-block align-top" alt="">
+            </div>
+          </div>
+          <ng-container *ngIf="es_inicio_sesion">
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label>Correo electrónico:</label>
+                <input type="text" class="form-control" [(ngModel)]="obj_usuario.correo_usuario"  placeholder="ejemplo@correo.com">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label>Contraseña:</label>
+                <input type="password" class="form-control" [(ngModel)]="obj_usuario.contrasenia_usuario" placeholder="Contraseña">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center">
+                <button type="button" class="btn btn-success"
+                  [disabled]="!(obj_usuario.contrasenia_usuario && obj_usuario.correo_usuario)"
+                  (click)="iniciar_sesion()">Iniciar sesión</button>
+              </div>
+            </div>
+            <br>
+            <div class="row text-center">
+              <div class="form-group col-md-12">
+                <button type="button" class="btn btn-link" (click)="limpiar()">Registrarse.</button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!es_inicio_sesion">
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label>Nombre(s):</label>
+                <input type="text" class="form-control" [(ngModel)]="obj_usuario.nombre_usuario" placeholder="Nombre">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label>Apellidos:</label>
+                <input type="text" class="form-control" [(ngModel)]="obj_usuario.apellido_usuario" placeholder="Apellido">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label>Correo electrónico:</label>
+                <input type="text" class="form-control" [(ngModel)]="obj_usuario.correo_usuario" placeholder="ejemplo@correo.com">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label>Contraseña:</label>
+                <input type="password" class="form-control" [(ngModel)]="obj_usuario.contrasenia_usuario" placeholder="Contraseña">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-6 d-flex justify-content-center">
+                <button type="button" class="btn btn-danger" (click)="limpiar()">Cancelar</button>
+              </div>
+              <div class="col-6 d-flex justify-content-center">
+                <button type="button" class="btn btn-success" (click)="registrarse()">Crear usuario</button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+
+    </div>
+  </div>
+</div>

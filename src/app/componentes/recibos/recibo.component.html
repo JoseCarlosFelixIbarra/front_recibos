@@ -1,0 +1,144 @@
+<div class="container-fluid " style="height: 100vh; overflow: auto;">
+    <div class="row">
+        <div class="col-12"> 
+            <nav class="bg-light d-flex justify-content-between navbar navbar-light">
+                <div>
+                    <strong class="ms-5">Hola, {{obj_usuario.nombre_usuario}}</strong>
+                </div>
+            
+                <form class="form-inline d-flex ">
+                    <button class="btn btn-primary m-2" (click)="cerrar_sesion()">
+                        <i class="bi bi-box-arrow-right"></i>
+                        Cerrar sesión
+                    </button>
+                </form>
+            </nav>
+            <br>
+        </div>
+    </div>
+    <div class="row h-auto d-flex align-items-center justify-content-center">
+        <div class="col m-5">
+            <ng-container *ngIf="!panel_recibo">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row d-flex justify-content-end ">
+                                <div class="m-1 d-flex justify-content-end ">
+                                    <button type="button" class="btn btn-primary"
+                                        (click)="modo_agregar = true;abrir_panel_recibo()">
+                                        <i class="bi bi-plus-circle"></i>
+                                        Cargar nuevo </button>
+                                </div>
+                            </div>
+                            <br>
+                            <div style="overflow-x: auto;">
+                                <table class="table-striped col-md-12" style="text-align: center;">
+                                    <thead style="background-color: #0d6efd; color: white;">
+                                        <tr>
+                                            <th class="thFont borderLines">ID</th>
+                                            <th class="thFont borderLines">Proveedor</th>
+                                            <th class="thFont borderLines">Monto</th>
+                                            <th class="thFont borderLines">Moneda</th>
+                                            <th class="thFont borderLines">Fecha</th>
+                                            <th class="thFont borderLines">Comentario</th>
+                                            <th class="thFont borderLines">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="lista_recibos.length <= 0">
+                                        <tr>
+                                            <td align="center " colspan="9 ">No hay recibos.</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="lista_recibos.length > 0">
+                                        <tr *ngFor="let recibo of lista_recibos, index as posicion_lista">
+                                            <td>{{recibo.id}}</td>
+                                            <td>{{recibo.proveedor_recibo}}</td>
+                                            <td>{{recibo.monto_recibo}}</td>
+                                            <td>{{recibo.moneda_recibo}}</td>
+                                            <td>{{recibo.fecha_recibo | date: 'dd/MM/yyyy'}}</td>
+                                            <!--  | date: 'dd/MM/yyyy' -->
+                                            <td>{{recibo.comentario_recibo}}</td>
+                                            <td>
+                                                <button class="btn btn-primary m-1"
+                                                    (click)="abrir_panel_recibo_ver(recibo)">
+                                                    <i class="bi bi-eye"></i>
+                                                    Ver</button>
+                                                <button class="btn btn-success"
+                                                    (click)="modo_agregar = false; abrir_panel_recibo_edicion(recibo)">
+                                                    <i class="bi bi-pencil"></i>
+                                                    Editar</button>
+                                                <button class="btn btn-danger m-1"
+                                                    (click)="validar_eliminar_recibo(recibo.id)">
+                                                    <i class="bi bi-x-circle"></i>
+                                                    Eliminar</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </ng-container>
+            <ng-container *ngIf="panel_recibo">
+                    <div class="row">
+                        <div class="col-12">
+                            <div>
+                                <h4>{{modo_vista ? 'Ver':'Agregar'}} recibo.</h4>
+                            </div>
+                            <div class="">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Proveedor:</label>
+                                        <input [disabled]="modo_vista" type="text" class="form-control"
+                                            [(ngModel)]="obj_recibo.proveedor_recibo" placeholder="Proveedor">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Monto:</label>
+                                        <input [disabled]="modo_vista" type="text" class="form-control"
+                                            [(ngModel)]="obj_recibo.monto_recibo"
+                                            (keyup)="obj_recibo.monto_recibo=formato_moneda(obj_recibo.monto_recibo)" placeholder="00.00">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Moneda:</label>
+                                        <select [disabled]="modo_vista" class="form-select"
+                                            [(ngModel)]="obj_recibo.moneda_recibo" title="Selecciona el tipo de moneda">
+                                            <option *ngFor="let moneda of lista_tipo_monedas" [value]="moneda.clave" placeholder="Selecciona el tipo de moneda">
+                                                {{moneda.clave+' - '+moneda.nombre}}</option>
+                                        </select>
+                                        <!-- <input [disabled]="modo_vista" type="text" class="form-control"
+                                            [(ngModel)]="obj_recibo.moneda_recibo"> -->
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Fecha:</label>
+                                        <input [disabled]="modo_vista" type="date" class="form-control"
+                                            [(ngModel)]="obj_recibo.fecha_recibo">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label class="">Comentarios:</label>
+                                        <textarea [disabled]="modo_vista" class="form-control" id="txt_area_recibo"
+                                            [(ngModel)]="obj_recibo.comentario_recibo" rows="5" placeholder="Comentarios"></textarea>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="button" class="btn btn-danger" (click)="limpiar()">Cerrar</button>
+                                    </div>
+                                    <div class="col d-flex justify-content-end">
+                                        <button id="btnGuardar" *ngIf="!modo_vista && modo_agregar" type="button"
+                                            class="btn btn-primary" (click)="guardar_recibo()">Guardar</button>
+                                        <button id="btnEditar" *ngIf="!modo_vista && !modo_agregar" type="button"
+                                            class="btn btn-primary" (click)="editar_recibo()">Editar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
